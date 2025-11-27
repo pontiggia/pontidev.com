@@ -1,4 +1,4 @@
-import { ThemeToggle } from '@/components/theme-toggle';
+import { SiteHeader } from '@/components/site-header';
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -13,18 +13,13 @@ export default function Home() {
 
   return (
     <main className="h-screen overflow-hidden px-8 md:px-16 lg:px-24 py-8 md:py-10 flex flex-col">
-      <header className="flex items-center justify-between mb-10 md:mb-12">
-        <h1 className="font-serif text-2xl md:text-3xl lg:text-4xl tracking-tight text-foreground">
-          Felipe Pontiggia
-        </h1>
-        <ThemeToggle />
-      </header>
+      <SiteHeader name="Felipe Pontiggia" />
 
       <div className="flex-1 flex flex-col justify-between">
         <div>
           <section className="max-w-4xl mb-8">
             <p className="text-base text-muted-foreground mb-4">{greeting}</p>
-            <p className="font-serif text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight text-foreground mb-4 text-balance">
+            <p className="hero-text font-serif text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight text-foreground mb-4 text-balance">
               i'm a software engineer. been coding since i was 16, and never
               really stopped.
             </p>
@@ -35,8 +30,8 @@ export default function Home() {
 
           <section className="max-w-4xl gap-4 mt-16">
             <a
-              href="#"
-              className="group inline-flex items-center gap-2 font-serif text-xl md:text-2xl text-foreground hover:underline underline-offset-4"
+              href="/blog"
+              className="hero-text group inline-flex items-center gap-2 font-serif text-xl md:text-2xl text-foreground hover:underline underline-offset-4"
             >
               blog
               <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">
@@ -52,7 +47,7 @@ export default function Home() {
         <footer className="max-w-4xl pt-6 border-t border-border/40">
           <div className="flex flex-wrap gap-x-6 gap-y-3 mb-3">
             <a
-              href="#"
+              href="https://github.com/pontiggia"
               className="text-base text-foreground hover:text-muted-foreground transition-colors inline-flex items-center gap-1 group"
             >
               GitHub
@@ -61,7 +56,7 @@ export default function Home() {
               </span>
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/in/felipe-pontiggia/"
               className="text-base text-foreground hover:text-muted-foreground transition-colors inline-flex items-center gap-1 group"
             >
               LinkedIn
@@ -70,7 +65,7 @@ export default function Home() {
               </span>
             </a>
             <a
-              href="#"
+              href="https://x.com/pontidev"
               className="text-base text-foreground hover:text-muted-foreground transition-colors inline-flex items-center gap-1 group"
             >
               X
