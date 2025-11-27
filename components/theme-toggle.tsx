@@ -9,14 +9,19 @@ export function ThemeToggle() {
 
   useEffect(() => {
     setMounted(true)
-    const isDarkMode = document.documentElement.classList.contains("dark")
+    // Check localStorage first, default to light mode if not set
+    const savedTheme = localStorage.getItem("theme")
+    const isDarkMode = savedTheme === "dark"
+
     setIsDark(isDarkMode)
+    document.documentElement.classList.toggle("dark", isDarkMode)
   }, [])
 
   const toggleTheme = () => {
     const newIsDark = !isDark
     setIsDark(newIsDark)
     document.documentElement.classList.toggle("dark", newIsDark)
+    localStorage.setItem("theme", newIsDark ? "dark" : "light")
   }
 
   if (!mounted) {
@@ -26,7 +31,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="text-muted-foreground hover:text-foreground transition-colors"
+      className="theme-icon text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
