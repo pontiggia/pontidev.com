@@ -25,7 +25,7 @@ export function ThemeToggle() {
   }
 
   if (!mounted) {
-    return <div className="w-5 h-5" />
+    return <div className="w-6 h-6" />
   }
 
   return (
@@ -34,7 +34,7 @@ export function ThemeToggle() {
       className="theme-icon text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
     </button>
   )
 }
