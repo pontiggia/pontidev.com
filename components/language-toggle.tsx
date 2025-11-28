@@ -9,12 +9,15 @@ interface LanguageToggleProps {
   currentLang: Language;
 }
 
-export function LanguageToggle({ hasEnglish, hasSpanish, currentLang }: LanguageToggleProps) {
+export function LanguageToggle({
+  hasEnglish,
+  hasSpanish,
+  currentLang,
+}: LanguageToggleProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Don't show toggle if only one language is available
   if (!hasEnglish || !hasSpanish) {
     return null;
   }
