@@ -1,19 +1,51 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
-  getPostBySlug,
+  compilePost,
   getAllPostSlugs,
   getAllPosts,
   type Language,
+  checkLanguageVersions,
 } from '@/lib/mdx';
 import { SiteHeader } from '@/components/site-header';
-import { MDXContent } from '@/components/mdx-content';
 import { TableOfContents } from '@/components/table-of-contents';
 import { LanguageToggle } from '@/components/language-toggle';
 
+export const dynamic = 'force-static';
+export const revalidate = false;
+
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
-  return slugs.map((slug) => ({ slug }));
+  const params = [];
+
+  for (const slug of slugs) {
+    const versions = checkLanguageVersions(slug);
+
+    if (versions.hasEnglish) {
+      params.push({ slug });
+    }
+  }
+
+  return params;
+}
+
+export async function generateMetadata({ params, searchParams }: PageProps) {
+  const { slug } = await params;
+  const { lang } = await searchParams;
+  const language = (lang === 'es' ? 'es' : 'en') as Language;
+
+  const post = await compilePost(slug, language);
+
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.description,
+  };
 }
 
 interface PageProps {
@@ -26,7 +58,7 @@ export default async function PostPage({ params, searchParams }: PageProps) {
   const { lang } = await searchParams;
   const language = (lang === 'es' ? 'es' : 'en') as Language;
 
-  const post = getPostBySlug(slug, language);
+  const post = await compilePost(slug, language);
   const allPosts = getAllPosts(language);
   const morePosts = allPosts.filter((p) => p.slug !== slug).slice(0, 5);
 
@@ -78,7 +110,7 @@ export default async function PostPage({ params, searchParams }: PageProps) {
           </h1>
 
           <div className="prose-custom">
-            <MDXContent content={post.content} />
+            {post.content}
           </div>
 
           <footer className="mt-16 pt-6 border-t border-border/40">
@@ -95,7 +127,7 @@ export default async function PostPage({ params, searchParams }: PageProps) {
           <div className="border-l border-border/40 self-stretch" />
           <aside className="w-52 flex-shrink-0">
             <div>
-              <TableOfContents content={post.content} />
+              <TableOfContents headings={post.headings} />
 
               {morePosts.length > 0 && (
                 <div className="mt-10">

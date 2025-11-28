@@ -3,6 +3,14 @@ import { SiteHeader } from '@/components/site-header';
 import { getAllPosts } from '@/lib/mdx';
 import { BlogFilter } from '@/components/blog-filter';
 
+export const dynamic = 'force-static';
+export const revalidate = false;
+
+export const metadata = {
+  title: 'Blog',
+  description: 'Thoughts on software, design, and life',
+};
+
 export default function BlogPage() {
   const posts = getAllPosts('en');
   const allTags = Array.from(new Set(posts.flatMap((post) => post.tags || [])));

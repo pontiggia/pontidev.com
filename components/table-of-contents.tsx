@@ -3,37 +3,15 @@
 import type React from 'react';
 
 import { useEffect, useState } from 'react';
-
-interface Heading {
-  id: string;
-  text: string;
-  level: number;
-}
+import type { Heading } from '@/types/mdx';
 
 interface TableOfContentsProps {
-  content: string;
+  headings: Heading[];
 }
 
-export function TableOfContents({ content }: TableOfContentsProps) {
+export function TableOfContents({ headings }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>('');
-  const [headings, setHeadings] = useState<Heading[]>([]);
 
-  // Extract headings from markdown content
-  useEffect(() => {
-    const matches = content.match(/^#{2,3}\s+.+$/gm) || [];
-    const extracted = matches.map((match) => {
-      const level = match.startsWith('### ') ? 3 : 2;
-      const text = match.replace(/^#{2,3}\s+/, '');
-      const id = text
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w-]/g, '');
-      return { id, text, level };
-    });
-    setHeadings(extracted);
-  }, [content]);
-
-  // Track active heading on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
