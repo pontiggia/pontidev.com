@@ -1,19 +1,7 @@
-'use client';
+import type React from 'react';
+import { slugify } from '@/lib/utils/validation';
 
-import { MDXRemote } from 'next-mdx-remote/rsc';
-
-interface MDXContentProps {
-  content: string;
-}
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w-]/g, '');
-}
-
-const components = {
+export const mdxComponents = {
   h2: ({ children }: { children: React.ReactNode }) => {
     const text = typeof children === 'string' ? children : String(children);
     const id = slugify(text);
@@ -25,7 +13,3 @@ const components = {
     return <h3 id={id}>{children}</h3>;
   },
 };
-
-export function MDXContent({ content }: MDXContentProps) {
-  return <MDXRemote source={content} components={components} />;
-}
