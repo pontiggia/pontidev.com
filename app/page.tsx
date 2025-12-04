@@ -1,4 +1,5 @@
 import { SiteHeader } from '@/components/site-header';
+import Link from 'next/link';
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -29,7 +30,7 @@ export default function Home() {
           </section>
 
           <section className="max-w-4xl gap-4 mt-16">
-            <a
+            <Link
               href="/blog"
               className="hero-text group inline-flex items-center gap-2 font-serif text-xl md:text-2xl text-foreground hover:underline underline-offset-4"
             >
@@ -37,7 +38,7 @@ export default function Home() {
               <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">
                 →
               </span>
-            </a>
+            </Link>
             <p className="text-sm text-muted-foreground mt-2">
               thoughts on code, security, and whatever else is on my mind.
             </p>
