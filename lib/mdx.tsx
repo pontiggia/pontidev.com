@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { compileMDX } from 'next-mdx-remote/rsc';
+import rehypeHighlight from 'rehype-highlight';
 import type { Language, Post, PostMeta } from '@/types/mdx';
 import { validateSlug } from '@/lib/utils/validation';
 import { parseDateToISO } from '@/lib/utils/date';
@@ -116,6 +117,7 @@ export function getPostBySlug(
   }
 
   const versions = checkLanguageVersions(slug);
+  console.log(`[getPostBySlug] slug: ${slug}, lang: ${lang}, versions:`, versions);
 
   let fullPath: string | null = null;
 
@@ -128,6 +130,9 @@ export function getPostBySlug(
     postsDirectory,
     lang === 'es' && versions.hasSpanish ? `${slug}.es.mdx` : `${slug}.mdx`,
   );
+
+  console.log(`[getPostBySlug] folderPath: ${folderPath}`);
+  console.log(`[getPostBySlug] flatPath: ${flatPath}`);
 
   if (fs.existsSync(folderPath)) {
     fullPath = folderPath;
@@ -142,6 +147,8 @@ export function getPostBySlug(
       fullPath = flatEnPath;
     }
   }
+
+  console.log(`[getPostBySlug] Selected fullPath: ${fullPath}`);
 
   if (!fullPath) {
     return null;
@@ -209,6 +216,9 @@ export async function compilePost(slug: string, lang: Language = 'en') {
     components: mdxComponents,
     options: {
       parseFrontmatter: false,
+      mdxOptions: {
+        rehypePlugins: [rehypeHighlight],
+      },
     },
   });
 

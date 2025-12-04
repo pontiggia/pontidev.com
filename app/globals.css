@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import 'highlight.js/styles/atom-one-dark.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -173,12 +174,27 @@
 }
 
 .prose-custom p {
-  @apply mb-4 text-muted-foreground;
+  @apply mb-4;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: oklch(0.4 0.01 50);
+}
+
+.dark .prose-custom p {
+  color: oklch(0.95 0 0);
 }
 
 .prose-custom ul,
 .prose-custom ol {
-  @apply mb-4 pl-6 text-muted-foreground;
+  @apply mb-4 pl-6;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: oklch(0.4 0.01 50);
+}
+
+.dark .prose-custom ul,
+.dark .prose-custom ol {
+  color: oklch(0.95 0 0);
 }
 
 .prose-custom ul {
@@ -198,17 +214,127 @@
 }
 
 .prose-custom code {
-  @apply font-mono text-sm bg-secondary px-1.5 py-0.5 rounded;
+  @apply font-mono px-2 py-1 rounded;
+  font-size: 0.9em;
+  color: oklch(0.5 0.25 27.325);
+  background-color: oklch(0.95 0.01 27.325 / 0.4);
+  border: 1px solid oklch(0.88 0.01 27.325 / 0.3);
+  font-weight: 500;
+}
+
+.dark .prose-custom code {
+  color: oklch(0.82 0.22 27.325);
+  background-color: oklch(0.2 0.02 27.325 / 0.5);
+  border: 1px solid oklch(0.3 0.02 27.325 / 0.4);
 }
 
 .prose-custom pre {
-  @apply bg-secondary p-4 rounded-lg overflow-x-auto mb-4;
+  @apply p-4 rounded-lg overflow-x-auto mb-4;
+  background-color: oklch(0.15 0.01 50);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.dark .prose-custom pre {
+  background-color: oklch(0.08 0.005 50);
 }
 
 .prose-custom pre code {
-  @apply bg-transparent p-0;
+  @apply bg-transparent p-0 font-mono;
+  color: oklch(0.9 0 0);
+  background-color: transparent !important;
+  border: none !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  padding: 0 !important;
+}
+
+/* Syntax highlighting for code blocks - Light mode */
+.prose-custom pre code .hljs-keyword,
+.prose-custom pre code .hljs-selector-tag,
+.prose-custom pre code .hljs-built_in {
+  color: oklch(0.7 0.2 320); /* Purple/Magenta */
+}
+
+.prose-custom pre code .hljs-string,
+.prose-custom pre code .hljs-attr {
+  color: oklch(0.7 0.15 150); /* Green */
+}
+
+.prose-custom pre code .hljs-function,
+.prose-custom pre code .hljs-title {
+  color: oklch(0.75 0.18 220); /* Blue */
+}
+
+.prose-custom pre code .hljs-number,
+.prose-custom pre code .hljs-literal {
+  color: oklch(0.7 0.2 60); /* Orange */
+}
+
+.prose-custom pre code .hljs-comment {
+  color: oklch(0.6 0.05 50); /* Gray */
+  font-style: italic;
+}
+
+.prose-custom pre code .hljs-variable,
+.prose-custom pre code .hljs-params {
+  color: oklch(0.8 0.1 40); /* Light Orange */
+}
+
+/* Syntax highlighting for code blocks - Dark mode */
+.dark .prose-custom pre code .hljs-keyword,
+.dark .prose-custom pre code .hljs-selector-tag,
+.dark .prose-custom pre code .hljs-built_in {
+  color: oklch(0.8 0.22 320); /* Brighter Purple/Magenta */
+}
+
+.dark .prose-custom pre code .hljs-string,
+.dark .prose-custom pre code .hljs-attr {
+  color: oklch(0.78 0.18 150); /* Brighter Green */
+}
+
+.dark .prose-custom pre code .hljs-function,
+.dark .prose-custom pre code .hljs-title {
+  color: oklch(0.82 0.2 230); /* Brighter Blue */
+}
+
+.dark .prose-custom pre code .hljs-number,
+.dark .prose-custom pre code .hljs-literal {
+  color: oklch(0.8 0.22 60); /* Brighter Orange */
+}
+
+.dark .prose-custom pre code .hljs-comment {
+  color: oklch(0.55 0.03 50); /* Lighter Gray */
+  font-style: italic;
+}
+
+.dark .prose-custom pre code .hljs-variable,
+.dark .prose-custom pre code .hljs-params {
+  color: oklch(0.85 0.12 40); /* Brighter Light Orange */
+}
+
+.dark .prose-custom pre code {
+  color: oklch(0.95 0 0); /* Brighter white for default text */
 }
 
 .prose-custom blockquote {
-  @apply border-l-2 border-border pl-4 italic text-muted-foreground mb-4;
+  @apply border-l-2 border-border pl-4 italic mb-4;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: oklch(0.45 0.01 50);
+}
+
+.dark .prose-custom blockquote {
+  color: oklch(0.92 0 0);
+}
+
+/* Table of Contents - Black on light mode, White on dark mode */
+nav a:hover,
+nav a.text-foreground {
+  color: #000000 !important;
+}
+
+.dark nav a:hover,
+.dark nav a.text-foreground {
+  color: #FFFFFF !important;
 }

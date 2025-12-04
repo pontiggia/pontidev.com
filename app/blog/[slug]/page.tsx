@@ -11,8 +11,7 @@ import { SiteHeader } from '@/components/site-header';
 import { TableOfContents } from '@/components/table-of-contents';
 import { LanguageToggle } from '@/components/language-toggle';
 
-export const dynamic = 'force-static';
-export const revalidate = false;
+export const dynamic = 'force-dynamic';
 
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
@@ -104,14 +103,12 @@ export default async function PostPage({ params, searchParams }: PageProps) {
       <div className="border-t border-border/40" />
 
       <div className="flex justify-between py-10">
-        <article className="max-w-2xl lg:max-w-[900px] lg:ml-12">
+        <article className="max-w-2xl lg:max-w-[850px] lg:ml-12">
           <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl tracking-tight text-foreground mb-6">
             {post.title}
           </h1>
 
-          <div className="prose-custom">
-            {post.content}
-          </div>
+          <div className="prose-custom">{post.content}</div>
 
           <footer className="mt-16 pt-6 border-t border-border/40">
             <Link
