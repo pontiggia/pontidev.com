@@ -103,8 +103,8 @@ export default async function PostPage({ params, searchParams }: PageProps) {
       <div className="border-t border-border/40" />
 
       <div className="flex justify-between py-10">
-        <article className="max-w-2xl lg:max-w-[850px] lg:ml-12">
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl tracking-tight text-foreground mb-6">
+        <article className="w-full max-w-2xl lg:max-w-[850px] lg:ml-12 min-w-0">
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl tracking-tight text-foreground mb-6 break-words">
             {post.title}
           </h1>
 

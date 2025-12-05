@@ -155,10 +155,15 @@
 /* Added prose styles for MDX content */
 .prose-custom {
   @apply text-foreground leading-relaxed;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .prose-custom h2 {
   @apply font-serif text-2xl md:text-3xl mt-10 mb-4 text-foreground;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .dark .prose-custom h2 {
@@ -167,6 +172,8 @@
 
 .prose-custom h3 {
   @apply font-serif text-xl md:text-2xl mt-8 mb-3 text-foreground;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .dark .prose-custom h3 {
@@ -178,6 +185,8 @@
   font-size: 1.0625rem;
   line-height: 1.75;
   color: oklch(0.4 0.01 50);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .dark .prose-custom p {
@@ -190,6 +199,8 @@
   font-size: 1.0625rem;
   line-height: 1.75;
   color: oklch(0.4 0.01 50);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .dark .prose-custom ul,
