@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { SiteHeader } from '@/components/site-header';
+import { SiteFooter } from '@/components/site-footer';
 import { getAllPosts } from '@/lib/mdx';
 import { BlogFilter } from '@/components/blog-filter';
 
@@ -24,14 +25,9 @@ export default function BlogPage() {
       <div className="max-w-2xl mx-auto">
         <BlogFilter posts={posts} allTags={allTags} />
 
-        <footer className="mt-12 pt-6 border-t border-border">
-          <Link
-            href="/"
-            className="blog-tag text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            ← back home
-          </Link>
-        </footer>
+        <div className="mt-12">
+          <SiteFooter />
+        </div>
       </div>
     </main>
   );

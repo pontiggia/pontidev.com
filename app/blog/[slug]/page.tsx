@@ -8,6 +8,7 @@ import {
   checkLanguageVersions,
 } from '@/lib/mdx';
 import { SiteHeader } from '@/components/site-header';
+import { SiteFooter } from '@/components/site-footer';
 import { TableOfContents } from '@/components/table-of-contents';
 import { LanguageToggle } from '@/components/language-toggle';
 
@@ -110,14 +111,9 @@ export default async function PostPage({ params, searchParams }: PageProps) {
 
           <div className="prose-custom">{post.content}</div>
 
-          <footer className="mt-16 pt-6 border-t border-border/40">
-            <Link
-              href="/blog"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              ← back to blog
-            </Link>
-          </footer>
+          <div className="mt-16">
+            <SiteFooter />
+          </div>
         </article>
 
         <div className="hidden lg:flex gap-4 items-start self-start sticky top-10">
