@@ -78,10 +78,10 @@ export default function Home() {
           <p className="text-sm text-muted-foreground">
             want to share something?{' '}
             <a
-              href="mailto:hi@felipepontiggia.com"
+              href="mailto:felipontiggia@gmail.com"
               className="text-foreground hover:underline underline-offset-2"
             >
-              hi@felipepontiggia.com
+              felipontiggia@gmail.com
             </a>{' '}
           </p>
         </footer>
