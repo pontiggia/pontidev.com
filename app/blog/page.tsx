@@ -19,6 +19,15 @@ export default function BlogPage() {
   return (
     <main className="min-h-screen px-8 md:px-16 lg:px-24 py-8 md:py-10">
       <div className="mb-16 md:mb-20 lg:mb-24">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+        >
+          <span className="group-hover:-translate-x-0.5 transition-transform">
+            ←
+          </span>
+          home
+        </Link>
         <SiteHeader />
       </div>
 
