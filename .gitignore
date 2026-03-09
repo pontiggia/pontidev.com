@@ -44,3 +44,8 @@ next-env.d.ts
 # cursor
 .cursor/
 CLAUDE.md
+
+# agent-seo (auto-generated at build time)
+app/llms.txt/
+app/api/agent-seo-transform/
+app/robots.txt
