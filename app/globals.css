@@ -79,9 +79,9 @@
 
 @theme inline {
   /* Added Playfair Display for serif headings */
-  --font-sans: 'Geist', 'Geist Fallback';
+  --font-sans: var(--font-geist-sans), 'Geist Fallback';
   --font-serif: 'Playfair Display', 'Georgia', serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-mono: var(--font-geist-mono), 'Geist Mono Fallback';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

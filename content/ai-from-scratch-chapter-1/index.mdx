@@ -1,0 +1,124 @@
+---
+title: 'AI From Scratch Chapter 1: The Basics No One Taught Me'
+date: '08/03/2026'
+description: 'from using AI tools without understanding them to building neural networks from scratch—perceptrons, backprop, and hitting 98% on MNIST with numpy'
+tags: ['ai', 'neural-networks']
+---
+
+## Why this exists
+
+I've been working with AI tools for a while now. Using them, integrating them, building on top of them. But I realized I had no idea how they actually work at the basics. I could prompt an LLM and get a response, but if you asked me "what's happening inside?" I wouldn't be able to tell you beyond some vague idea about neural networks, training data and token predictions.
+
+That bothered me. I'm the kind of person that needs to understand things from the ground up. And I had this feeling that if I truly understood how these systems work, deeply, I might see things that other people are missing.
+
+So I built my own course. I sat down, designed a roadmap, broke it into phases and weeks, and started from literally the most basic building block of a neural network: the perceptron.
+
+This post-series is me documenting that journey. It will not be a tutorial, nor a polished guide, more what I just learned or what confused me.
+
+## The starting point
+
+Before writing a single line of code I watched [3Blue1Brown's neural network series](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) and [Andrej Karpathy's videos](https://www.youtube.com/watch?v=VMj-3S1tku0&t=6477s). 3Blue1Brown gives you more of the visuals, you _see_ what a neural network is doing. Karpathy goes deeper into the math (which I'm not a huge fan of at this level), shows you exactly what happens with derivatives and backprop under the hood.
+
+Between the two, I had enough understanding to start building.
+
+## What is a neural network
+
+A neural network is layers of neurons connected to each other. Each neuron does one simple thing: takes inputs, multiplies each by a weight, adds a bias, and passes the result through an activation function. That's it. Every neuron in every AI model does exactly this.
+
+The layers have roles. The **input layer** receives raw data, could be pixels of an image, words in a sentence, whatever you're feeding it. The **hidden layers** (one or many) transform that data step by step, calculating to "learn" abstract patterns. The **output layer** gives you the final answer: a classification, a probability, a prediction.
+
+A network with one hidden layer can learn simple patterns. With more layers it starts recognizing complex things. That's the "deep" in deep learning: depth of layers.
+
+![Neural Network diagram](/blog/ai-from-scratch-chapter-1/simple_neural_network.png)
+
+But none of this works without training. The network starts completely random and learns by repeating four steps: make a prediction (forward pass), measure how wrong it was (cost), trace back to find which weights caused the error (backpropagation), and nudge them in the right direction (gradient descent). Thousands of times. That loop is everything.
+
+## The perceptron
+
+A perceptron is the simplest possible neural network. One single neuron. It takes inputs, multiplies each by a weight, adds a bias, and passes everything through sigmoid which squashes the result between 0 and 1.
+
+```
+output = sigmoid(weights * inputs + bias)
+```
+
+Think of it like deciding whether to go to a party. You have two inputs: "are my friends going?" and "is there free food?" Each one has a weight (how much you care about it). Friends going might be a 0.8 for you, free food maybe a 0.3. Then there's the bias (your mood). Feeling social? Low threshold, you'll go with just one reason. Tired after a long week? You need both to be true.
+
+![Perceptron architecture diagram](/blog/ai-from-scratch-chapter-1/perceptron.png)
+
+I trained one from scratch in Python to learn the AND logic gate (given two binary inputs, it should only output 1 when both are 1). Random weights at first, completely wrong predictions. Then: forward pass to get a prediction, calculate how wrong it was (the cost), trace backward to figure out which weights caused the error (backprop), nudge them in the right direction (gradient descent), repeat.
+
+After 1000 iterations, the cost went from 0.25 to 0.015. The perceptron learned AND.
+
+### The cost
+
+The cost is just a single number that says to the neural network "you're this N wrong." You get the expected output (what you wanted) minus the actual output (what you got), and square it. Basically: `cost = (expected - actual) ** 2`
+
+Why squared? It makes all errors positive, and it punishes big errors way more than small ones. Off by 0.1? Cost is 0.01. Off by 0.5? Cost is 0.25, twenty-five times worse. The network _really_ doesn't want to be confidently wrong.
+
+![Cost function diagram](/blog/ai-from-scratch-chapter-1/cost_explanation.png)
+
+The lower the cost, the better.
+
+### Backpropagation
+
+Backprop confused me until I thought of it as blame assignment.
+
+A company screws up a product launch. The CEO asks "what went wrong?" VP of marketing blames sales. Sales blames product. Product blames engineering. Engineering blames unclear requirements. Each layer traces the blame backward and takes its share.
+
+Backprop does the same thing with math. The output says "I was wrong by 0.3," traces back to each weight and asks "how much of that was your fault?" Big contribution = big adjustment. If a weight pushed the output too high, subtract. Too low, add. The math tells you automatically.
+
+![backprop diagram](/blog/ai-from-scratch-chapter-1/backprop_diagram.png)
+
+### Learning rate
+
+The learning rate controls how big of a step the network takes each time it updates its weights. Picture a terrain with hills and valleys. Each valley is a local minimum, a spot where the cost is low, but not necessarily the lowest. Somewhere out there is the global minimum, the absolute best the network can do, but finding it is almost impossible in practice. You'd have to explore every valley in a space with thousands of dimensions.
+
+In reality, you just want to land in a valley that's good enough. Gradient descent tells you which direction is downhill, but the learning rate decides how far you step. Step too small and you'll crawl forever. Step too large and you'll overshoot every valley entirely. The right learning rate lets you descend fast enough to converge, without jumping past the answer.
+
+I trained the same perceptron with three learning rates:
+
+- **lr = 0.01**: cost barely moved. Like walking to a restaurant taking 2cm steps. You'll get there eventually, but you'll starve first.
+- **lr = 30**: dropped to zero almost instantly. Normal steps. Sweet spot.
+- **lr = 100**: flat line. Stuck forever. Like each step is 50 meters: you keep overshooting the restaurant, turning around, overshooting again.
+
+## Where one neuron fails
+
+Then I tried XOR logical gate (output 1 when exactly one input is true). Changed the expected outputs and ran the same code.
+
+Cost stuck at 0.25. The perceptron got 3 out of 4 right and just... gave up on the last one.
+
+Look at the plot: the two "1" points sit on opposite diagonal corners. Try drawing one straight line that separates them from the "0" points. You can't. No matter how you angle it, at least one point ends up on the wrong side. One neuron = one line. XOR needs two lines.
+
+![XOR plot](/blog/ai-from-scratch-chapter-1/xor_perceptron_decision_boundary.png)
+
+### Adding a hidden layer
+
+The fix is simple in concept: give the network more neurons. I added a hidden layer with 2 neurons between input and output. Each hidden neuron draws its own line, and the output neuron learns to combine them.
+
+The backprop now has one extra step, the output distributes blame to each hidden neuron proportionally: "you contributed 60% of my input, you get 60% of the blame." Same chain rule, one more link.
+
+![xor_gate network](/blog/ai-from-scratch-chapter-1/xor_gate_diagram.png)
+
+With `lr = 13` (found by just trying values), XOR solved. Cost dropped to 0.0000.
+
+## Scaling up: MNIST
+
+Once XOR worked, I jumped to something real: handwritten digit recognition. 60,000 images of digits that actual humans wrote, each one a 28×28 pixel grid. Given an image, the network should output a number from 0 to 9, based on probabilities: "this is 80% a 3, 15% an 8, and 5% a 2
+
+The jump from XOR to this felt huge at first. XOR has 2 inputs and 4 examples. MNIST has 784 inputs (every pixel of the image, flattened into a row) and 60,000 examples.
+
+I did have to learn two new pieces. Softmax on the output layer, which takes 10 raw numbers and turns them into probabilities that add up to 1, so instead of each neuron doing its own thing, they compete. And cross-entropy as the cost function, which is brutal when the network is confidently wrong. If it says "I'm 95% sure this is a 3" and it's actually a 7, cross-entropy punishes it with a heavy cost.
+
+On the first runs, I got 98.1% accuracy on the test set.
+
+Then I got greedy. "What if I add more neurons?" Tried 256 instead of 128. Accuracy dropped to 96%. Tried 384. Even worse. More neurons was making it dumber. Turns out the network had so much capacity it started memorizing the training images instead of learning what actually makes a "3" look like a "3." This is called overfitting, and it's like studying for an exam by memorizing every practice question word-for-word
+
+## What I actually learned
+
+Two weeks in and the biggest takeaway isn't any specific concept. It's that all of this is just math.
+
+The second takeaway: most of the work isn't the architecture. It's tuning. Finding the right learning rate, the right number of neurons, the right number of epochs. I spent more time tweaking numbers than writing actual code.
+
+Third: knowing _when_ a technique matters is as important as knowing _how_ it works. Adding neurons didn't help. Adding layers barely helped. The bottleneck was the architecture, not the size.
+
+Next phase of my course, will cover optimization and regularization. Hope the math stays simple.

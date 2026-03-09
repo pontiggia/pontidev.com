@@ -122,6 +122,9 @@ importers:
       fs:
         specifier: 0.0.1-security
         version: 0.0.1-security
+      geist:
+        specifier: ^1.7.0
+        version: 1.7.0(next@16.1.6(react-dom@19.2.0(react@19.2.1))(react@19.2.1))
       gray-matter:
         specifier: 4.0.3
         version: 4.0.3
@@ -1658,6 +1661,11 @@ packages:
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
+
+  geist@1.7.0:
+    resolution: {integrity: sha512-ZaoiZwkSf0DwwB1ncdLKp+ggAldqxl5L1+SXaNIBGkPAqcu+xjVJLxlf3/S8vLt9UHx1xu5fz3lbzKCj5iOVdQ==}
+    peerDependencies:
+      next: '>=13.2.0'
 
   get-nonce@1.0.1:
     resolution: {integrity: sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==}
@@ -4002,6 +4010,10 @@ snapshots:
   fs@0.0.1-security: {}
 
   function-bind@1.1.2: {}
+
+  geist@1.7.0(next@16.1.6(react-dom@19.2.0(react@19.2.1))(react@19.2.1)):
+    dependencies:
+      next: 16.1.6(react-dom@19.2.0(react@19.2.1))(react@19.2.1)
 
   get-nonce@1.0.1: {}
 
