@@ -1,7 +1,7 @@
 ---
 title: 'AI From Scratch Chapter 1: The Basics No One Taught Me'
 date: '08/03/2026'
-description: 'from using AI tools without understanding them to building neural networks from scratch—perceptrons, backprop, and hitting 98% on MNIST with numpy'
+description: 'I knew how to use AI tools but not how they worked under the hood. So I started from a single neuron and built up from there.'
 tags: ['ai', 'neural-networks']
 ---
 
@@ -23,7 +23,7 @@ Between the two, I had enough understanding to start building.
 
 ## What is a neural network
 
-A neural network is layers of neurons connected to each other. Each neuron does one simple thing: takes inputs, multiplies each by a weight, adds a bias, and passes the result through an activation function. That's it. Every neuron in every AI model does exactly this.
+A neural network is layers of neurons connected to each other. Each neuron does one simple thing: takes inputs, multiplies each by a weight, adds a bias, and passes the result through an activation function. That's it.
 
 The layers have roles. The **input layer** receives raw data, could be pixels of an image, words in a sentence, whatever you're feeding it. The **hidden layers** (one or many) transform that data step by step, calculating to "learn" abstract patterns. The **output layer** gives you the final answer: a classification, a probability, a prediction.
 
@@ -121,4 +121,4 @@ The second takeaway: most of the work isn't the architecture. It's tuning. Findi
 
 Third: knowing _when_ a technique matters is as important as knowing _how_ it works. Adding neurons didn't help. Adding layers barely helped. The bottleneck was the architecture, not the size.
 
-Next phase of my course, will cover optimization and regularization. Hope the math stays simple.
+Next phase will cover optimization and regularization. Hope the math stays simple.

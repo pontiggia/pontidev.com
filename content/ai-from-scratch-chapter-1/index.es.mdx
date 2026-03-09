@@ -1,0 +1,124 @@
+---
+title: 'AI Desde Cero Capítulo 1: Lo Básico Que Nadie Me Enseñó'
+date: '08/03/2026'
+description: 'perceptrones, funciones de costo, backprop — semana 1 construyendo redes neuronales desde cero'
+tags: ['ai', 'neural-networks']
+---
+
+## Contexto
+
+Llevo varios años trabajando con tools de AI. Usándolas, integrándolas, construyendo sobre ellas. Pero me di cuenta de que no tenía idea de cómo funcionan realmente a low level. Prompteo a un LLM y obtengo la respuesta, pero si me preguntabas "qué está pasando?" no podría decirte más allá de una idea vaga sobre redes neuronales, datos de entrenamiento y predicción de tokens.
+
+Eso me molestaba. Me gusta entender las cosas y poder explicar si alguien me pregunta, mas si tiene que ver con tecnologia. Y ademas tengo la sensación de que si realmente entiendo como funcionan estos sistemas, a fondo, podría ver cosas que otras personas no ven.
+
+Así que arme mi propio curso. Me senté, diseñé un roadmap, lo dividí en fases y semanas, y empecé desde literalmente lo más básico de una red neuronal: el perceptrón.
+
+Este post, y los que le siguen, documentan ese camino. No va a ser un tutorial ni una guía, más bien lo que aprendí y lo que me confundio tambien.
+
+## El punto de partida
+
+Antes de escribir una sola línea de código miré la [serie de redes neuronales de 3Blue1Brown](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) y los [videos de Andrej Karpathy](https://www.youtube.com/watch?v=VMj-3S1tku0&t=6477s). 3Blue1Brown te da más lo visual, _ves_ lo que está haciendo una red neuronal, con charts y ejemplos. Karpathy va mas deep en la matemática (que no es lo que más me gusta), te muestra exactamente qué pasa con las derivadas y el backprop con codigo.
+
+Entre los dos, ya tenia bastante para empezar.
+
+## Qué es una red neuronal
+
+Una red neuronal son capas de neuronas conectadas entre sí. Cada neurona hace una cosa: toma inputs, multiplica cada uno por un peso, suma un bias, y pasa el resultado por una función (sigmoid). Eso es todo.
+
+Las capas tienen roles. La **capa de entrada** recibe los datos crudos, pueden ser los píxeles de una imagen, palabras en una oración, lo que sea que le metas. Las **capas ocultas** (una o varias) transforman esos datos paso a paso, calculando para "aprender" patrones abstractos. La **capa de salida** te da la respuesta final: una clasificación, una probabilidad, una predicción.
+
+Una red con una sola capa oculta puede aprender patrones simples. Con más capas empieza a reconocer cosas complejas. Eso es lo "deep" en deep learning (depth of layers).
+
+![Neural Network diagram](/blog/ai-from-scratch-chapter-1/simple_neural_network.png)
+
+Pero nada de esto funciona sin entrenamiento. La red empieza con valores completamente aleatorios y aprende repitiendo cuatro pasos: hacer una predicción (forward pass), medir qué tan equivocada estuvo (costo), rastrear hacia atrás para encontrar qué pesos causaron el error (backpropagation), y ajustarlos en la dirección correcta (gradient descent). Miles de veces.
+
+## El perceptrón
+
+Un perceptrón es la red neuronal más simple posible. Una sola neurona. Toma inputs, multiplica cada uno por un peso, suma un bias, y pasa todo por sigmoid que devuelve un valor entre 0 y 1.
+
+```
+output = sigmoid(weights * inputs + bias)
+```
+
+Pensalo como decidir si ir a una fiesta. Tenés dos inputs: "van mis amigos?" y "hay comida gratis?" Cada uno tiene un peso (cuánto te importa). Que vayan tus amigos capaz es un 0.8 para vos, comida gratis quizás un 0.3. Después está el bias (tu humor). Con ganas de salir? mayor bias, vas con una sola razón. Estas cansado? menor bias, necesitás que las dos sean verdad.
+
+![Diagrama de arquitectura del perceptrón](/blog/ai-from-scratch-chapter-1/perceptron.png)
+
+Entrené uno desde cero en Python para aprender la compuerta lógica AND (dados dos inputs binarios, solo debería devolver 1 cuando ambos son 1). Pesos aleatorios al principio, predicciones completamente erradas. Después: forward pass para obtener una predicción, calcular qué tan equivocada fue (el costo), rastrear hacia atrás para encontrar qué pesos causaron el error (backprop), ajustarlos en la dirección correcta (gradient descent), repetir.
+
+Después de 1000 iteraciones, el costo bajó de 0.25 a 0.015. El perceptrón aprendió AND.
+
+### El costo
+
+El costo es simplemente un número que le dice a la red neuronal "estás N de equivocada." Tomás la salida esperada (lo que querías) menos la salida real (lo que obtuviste), y lo elevás al cuadrado. Básicamente: `costo = (esperado - real) ** 2`
+
+Por qué al cuadrado? Hace que todos los errores sean positivos, y castiga los errores grandes mucho más que los chicos. Te equivocaste por 0.1? Costo es 0.01. Por 0.5? Costo es 0.25, veinticinco veces peor. Si la red se equivoca con confianza, el costo es enorme.
+
+![Diagrama de función de costo](/blog/ai-from-scratch-chapter-1/cost_explanation.png)
+
+Cuanto más bajo el costo, mejor.
+
+### Backpropagation
+
+Backprop me confundió hasta que lo pensé como asignar la culpa del output.
+
+Digamos que a una empresa le sale mal el lanzamiento de un producto. El CEO pregunta "qué salió mal?" El VP de marketing culpa a ventas. Ventas culpa a producto. Producto culpa a ingeniería. Ingeniería dice que hubo requerimientos poco claros. Cada capa rastrea la culpa hacia atrás y toma su parte.
+
+Backprop hace lo mismo con matemática. La salida dice "me equivoqué por 0.3," rastrea hacia atrás a cada peso y pregunta "cuánto de eso fue tu culpa?" Contribución grande = ajuste grande. Si un peso hizo que el output subiera demasiado, restá. Muy abajo, sumá. La matemática te lo dice automáticamente.
+
+![Diagrama de backprop](/blog/ai-from-scratch-chapter-1/backprop_diagram.png)
+
+### Learning rate
+
+El learning rate controla qué tan grande es el paso que da la red cada vez que actualiza sus pesos. Imaginate un terreno con colinas y valles. Cada valle es un mínimo local, un punto donde el costo es bajo, pero no necesariamente el más bajo. En algún lugar está el mínimo global, lo mejor absoluto que la red puede lograr, pero encontrarlo es casi imposible en la práctica. Tendrías que explorar cada valle en un espacio con miles de dimensiones.
+
+En la realidad, solo querés caer en un valle que sea lo suficientemente bueno. Gradient descent te dice en qué dirección es cuesta abajo, pero el learning rate decide qué tan lejos pisás. Paso muy chico y vas a arrastrarte para siempre. Paso muy grande y te vas a pasar de largo de cada valle. El learning rate correcto te deja descender lo suficientemente rápido para hacer que tu cost baje, sin saltar la respuesta.
+
+Entrené el mismo perceptrón con tres learning rates:
+
+- **lr = 0.01**: el costo apenas se movió. Como caminar a un restaurante dando pasos de 2cm. Vas a llegar, pero te morís de hambre primero.
+- **lr = 30**: bajó a cero casi instantáneamente. Pasos normales. Punto justo.
+- **lr = 100**: línea plana. Atascado para siempre. Como si cada paso fuera de 50 metros: te pasás del restaurante, das la vuelta, te volvés a pasar (overshooting).
+
+## Donde una neurona falla
+
+Después probé la compuerta lógica XOR (devuelve 1 cuando exactamente un input es verdadero). Cambié los outputs esperados y corrí el mismo código.
+
+El costo se quedó en 0.25. El perceptrón predijo 3 de 4 y... se rindió con el último.
+
+El grafico: los dos puntos "1" están en esquinas diagonales opuestas. Intentá dibujar una sola línea recta que los separe de los puntos "0". No podés. No importa cómo la inclines, al menos un punto queda del lado equivocado. Una neurona = una línea. XOR necesita dos líneas.
+
+![Gráfico XOR](/blog/ai-from-scratch-chapter-1/xor_perceptron_decision_boundary.png)
+
+### Agregando una capa oculta (hidden layer)
+
+La solución es simple en concepto: darle más neuronas a la red. Agregué una hidden layer con 2 neuronas entre la entrada y la salida. Cada neurona dibuja su propia línea, y la neurona de salida aprende a combinarlas.
+
+El backprop ahora tiene un paso extra, la salida distribuye culpa a cada neurona proporcionalmente: "vos contribuiste el 60% de mi input, te llevás el 60% de la culpa." Misma regla de la cadena, un eslabón más.
+
+![Red XOR](/blog/ai-from-scratch-chapter-1/xor_gate_diagram.png)
+
+Con `lr = 13` (encontrado probando valores), XOR resuelto. El costo bajó a 0.0000.
+
+## Escalando: MNIST
+
+Una vez que XOR funcionó, salté a algo real: reconocimiento de dígitos escritos a mano. 60,000 imágenes de dígitos que humanos reales escribieron, cada una en una grilla de 28×28 píxeles. Dada una imagen, la red debería devolver un número del 0 al 9, basado en probabilidades: "esto es 80% un 3, 15% un 8, y 5% un 2"
+
+El salto de XOR a esto se sintió bastante al principio. XOR tiene 2 inputs y 4 ejemplos. MNIST tiene 784 inputs (cada píxel de la imagen, aplanado en una fila) y 60,000 ejemplos.
+
+Tuve que aprender dos cosas nuevas. Softmax en la capa de salida, que toma 10 números y los convierte en probabilidades que suman 1, así en vez de que cada neurona haga lo suyo, compiten. Y cross-entropy como función de costo, que castiga mucho más cuando la red está equivocada con confianza. Si dice "estoy 95% segura de que es un 3" y en realidad es un 7, cross-entropy la castiga con un costo enorme.
+
+En las primeras pruebas, obtuve 98.1% de accuracy en el set de test.
+
+Después me puse greedy. "Y si agrego más neuronas?" Probé 256 en vez de 128. La accuracy bajó a 96%. Probé 384. Peor todavía. Más neuronas la estaba haciendo más tonta. Resulta que la red tenía tanta capacidad que empezó a memorizar las imágenes de entrenamiento en vez de aprender lo qué realmente hace que un "3" se vea como un "3." Esto se llama overfitting, y es como estudiar para un examen memorizando cada pregunta de práctica palabra por palabra.
+
+## Lo que realmente aprendí
+
+En estas 2 semanas, la conclusión más grande no es ningún concepto específico. Es que todo esto es matemática.
+
+La segunda conclusión: la mayor parte del trabajo no es la arquitectura. Es el tuning. Encontrar el learning rate correcto, la cantidad correcta de neuronas, la cantidad correcta de epochs. Pasé más tiempo ajustando números que escribiendo código.
+
+Tercero: saber _cuándo_ una técnica importa es tan importante como saber _cómo_ funciona. Agregar neuronas no ayudó. Agregar capas apenas ayudó. El cuello de botella era la arquitectura, no el tamaño.
+
+La próxima fase va a cubrir optimización y regularización. Espero que la matemática siga simple.
