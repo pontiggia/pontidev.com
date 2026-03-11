@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { getAllPosts } from '@/lib/mdx';
@@ -18,25 +17,14 @@ export default function BlogPage() {
 
   return (
     <main className="min-h-screen px-8 md:px-16 lg:px-24 py-8 md:py-10">
-      <div className="mb-16 md:mb-20 lg:mb-24">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-        >
-          <span className="group-hover:-translate-x-0.5 transition-transform">
-            ←
-          </span>
-          home
-        </Link>
-        <SiteHeader />
-      </div>
+      <SiteHeader name="Ponti" href="/" />
 
       <div className="max-w-2xl mx-auto">
         <BlogFilter posts={posts} allTags={allTags} />
+      </div>
 
-        <div className="mt-12">
-          <SiteFooter />
-        </div>
+      <div className="mt-12">
+        <SiteFooter />
       </div>
     </main>
   );

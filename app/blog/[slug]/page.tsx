@@ -68,7 +68,7 @@ export default async function PostPage({ params, searchParams }: PageProps) {
 
   return (
     <main className="min-h-screen px-8 md:px-16 lg:px-24 py-8 md:py-10">
-      <SiteHeader />
+      <SiteHeader name="Ponti" href="/blog" />
 
       <div className="mb-2">
         <div className="flex items-center justify-between gap-4">

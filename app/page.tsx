@@ -14,8 +14,8 @@ export default function Home() {
   const greeting = getGreeting();
 
   return (
-    <main className="h-screen overflow-hidden px-8 md:px-16 lg:px-24 py-8 md:py-10 flex flex-col">
-      <SiteHeader name="Felipe Pontiggia" />
+    <main className="min-h-screen px-8 md:px-16 lg:px-24 py-8 md:py-10 flex flex-col">
+      <SiteHeader name="Felipe Pontiggia" href="/" />
 
       <div className="flex-1 flex flex-col justify-between">
         <div>
@@ -30,19 +30,37 @@ export default function Home() {
             </p>
           </section>
 
-          <section className="max-w-4xl gap-4 mt-16">
-            <Link
-              href="/blog"
-              className="hero-text group inline-flex items-center gap-2 font-serif text-xl md:text-2xl text-foreground hover:underline underline-offset-4"
-            >
-              blog
-              <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">
-                →
-              </span>
-            </Link>
-            <p className="text-sm text-muted-foreground mt-2">
-              thoughts on code, security, and whatever else is on my mind.
-            </p>
+          <section className="max-w-4xl mt-16 space-y-8">
+            <div>
+              <Link
+                href="/blog"
+                className="hero-text group inline-flex items-center gap-2 font-serif text-lg md:text-xl text-foreground hover:underline underline-offset-4"
+              >
+                blog
+                <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">
+                  →
+                </span>
+              </Link>
+              <p className="text-sm text-muted-foreground mt-2">
+                thoughts, notes, and whatever else is on my mind.
+              </p>
+            </div>
+
+            <div>
+              <Link
+                href="/projects"
+                className="hero-text group inline-flex items-center gap-2 font-serif text-lg md:text-xl text-foreground hover:underline underline-offset-4"
+              >
+                projects
+                <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">
+                  →
+                </span>
+              </Link>
+              <p className="text-sm text-muted-foreground mt-2">
+                things i built and shipped.
+              </p>
+            </div>
+
           </section>
         </div>
 
