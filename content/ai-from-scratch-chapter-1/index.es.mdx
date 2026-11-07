@@ -9,17 +9,17 @@ tags: ['ai', 'neural-networks']
 
 Llevo varios años trabajando con tools de AI. Usándolas, integrándolas, construyendo sobre ellas. Pero me di cuenta de que no tenía idea de cómo funcionan realmente a bajo nivel. Prompteo a un LLM y obtengo la respuesta, pero si me preguntabas "qué está pasando?" no podría decirte más allá de una idea vaga sobre redes neuronales, datos de entrenamiento y predicción de tokens.
 
-Eso me molestaba. Me gusta entender las cosas y poder explicar si alguien me pregunta, mas si tiene que ver con tecnologia. Y ademas tengo la sensación de que si realmente entiendo como funcionan estos sistemas, a fondo, podría ver cosas que otras personas no ven.
+Eso me molestaba. Me gusta entender las cosas y poder explicar si alguien me pregunta, más si tiene que ver con tecnología. Y además tengo la sensación de que si realmente entiendo cómo funcionan estos sistemas, a fondo, podría ver cosas que otras personas no ven.
 
-Así que arme mi propio curso. Me senté, diseñé un roadmap, lo dividí en fases y semanas, y empecé desde literalmente lo más básico de una red neuronal: el perceptrón.
+Así que armé mi propio curso. Me senté, diseñé un roadmap, lo dividí en fases y semanas, y empecé desde literalmente lo más básico de una red neuronal: el perceptrón.
 
-Este post, y los que le siguen, documentan ese camino. No va a ser un tutorial ni una guía, más bien lo que aprendí y lo que me confundio tambien.
+Este post, y los que le siguen, documentan ese camino. No va a ser un tutorial ni una guía, más bien lo que aprendí y lo que me confundió también.
 
 ## El punto de partida
 
-Antes de escribir una sola línea de código miré la [serie de redes neuronales de 3Blue1Brown](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) y los [videos de Andrej Karpathy](https://www.youtube.com/watch?v=VMj-3S1tku0&t=6477s). 3Blue1Brown te da más lo visual, _ves_ lo que está haciendo una red neuronal, con charts y ejemplos. Karpathy va mas profundo en la matemática (que no es lo que más me gusta), te muestra exactamente qué pasa con las derivadas y el backprop con codigo.
+Antes de escribir una sola línea de código miré la [serie de redes neuronales de 3Blue1Brown](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) y los [videos de Andrej Karpathy](https://www.youtube.com/watch?v=VMj-3S1tku0&t=6477s). 3Blue1Brown te da más lo visual, _ves_ lo que está haciendo una red neuronal, con charts y ejemplos. Karpathy va más profundo en la matemática (que no es lo que más me gusta), te muestra exactamente qué pasa con las derivadas y el backprop con código.
 
-Entre los dos, ya tenia bastante para empezar.
+Entre los dos, ya tenía bastante para empezar.
 
 ## Qué es una red neuronal
 
@@ -41,7 +41,7 @@ Un perceptrón es la red neuronal más simple posible. Una sola neurona. Toma in
 output = sigmoid(weights * inputs + bias)
 ```
 
-Pensalo como decidir si ir a una fiesta. Tenés dos inputs: "van mis amigos?" y "hay comida gratis?" Cada uno tiene un peso (cuánto te importa). Que vayan tus amigos capaz es un 0.8 para vos, comida gratis quizás un 0.3. Después está el bias (tu humor). Con ganas de salir? mayor bias, vas con una sola razón. Estas cansado? menor bias, necesitás que las dos sean verdad.
+Pensalo como decidir si ir a una fiesta. Tenés dos inputs: "van mis amigos?" y "hay comida gratis?" Cada uno tiene un peso (cuánto te importa). Que vayan tus amigos capaz es un 0.8 para vos, comida gratis quizás un 0.3. Después está el bias (tu humor). Con ganas de salir? mayor bias, vas con una sola razón. Estás cansado? menor bias, necesitás que las dos sean verdad.
 
 ![Diagrama de arquitectura del perceptrón](/blog/ai-from-scratch-chapter-1/perceptron.png)
 
@@ -81,13 +81,13 @@ Entrené el mismo perceptrón con tres learning rates:
 - **lr = 30**: bajó a cero casi instantáneamente. Pasos normales. Punto justo.
 - **lr = 100**: línea plana. Atascado para siempre. Como si cada paso fuera de 50 metros: te pasás del restaurante, das la vuelta, te volvés a pasar (overshooting).
 
-## Donde un perceptron falla
+## Donde un perceptrón falla
 
 Después probé la compuerta lógica XOR (devuelve 1 cuando exactamente un input es verdadero). Cambié los outputs esperados y corrí el mismo código.
 
 El costo se quedó en 0.25. El perceptrón predijo 3 de 4 y... se rindió con el último.
 
-El grafico: los dos puntos "1" están en esquinas diagonales opuestas. Intentá dibujar una sola línea recta que los separe de los puntos "0". No podés. No importa cómo la inclines, al menos un punto queda del lado equivocado. Una neurona = una línea. XOR necesita dos líneas.
+El gráfico: los dos puntos "1" están en esquinas diagonales opuestas. Intentá dibujar una sola línea recta que los separe de los puntos "0". No podés. No importa cómo la inclines, al menos un punto queda del lado equivocado. Una neurona = una línea. XOR necesita dos líneas.
 
 ![Gráfico XOR](/blog/ai-from-scratch-chapter-1/xor_perceptron_decision_boundary.png)
 
