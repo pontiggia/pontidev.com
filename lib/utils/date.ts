@@ -10,3 +10,12 @@ export function parseDateToISO(dateString: string): string {
 
   return dateString;
 }
+
+export function formatDate(isoDate: string): string {
+  return new Date(isoDate).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+}

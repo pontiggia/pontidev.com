@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { cache } from 'react';
 import matter from 'gray-matter';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import rehypeHighlight from 'rehype-highlight';
@@ -100,14 +101,7 @@ export function getAllPosts(lang: Language = 'en'): PostMeta[] {
   return allPosts.sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
-export function getAllTags(): string[] {
-  const posts = getAllPosts();
-  const tagsSet = new Set<string>();
-  posts.forEach((post) => post.tags.forEach((tag) => tagsSet.add(tag)));
-  return Array.from(tagsSet).sort();
-}
-
-export function getPostBySlug(
+export const getPostBySlug = cache(function getPostBySlug(
   slug: string,
   lang: Language = 'en',
 ): Post | null {
@@ -117,7 +111,6 @@ export function getPostBySlug(
   }
 
   const versions = checkLanguageVersions(slug);
-  console.log(`[getPostBySlug] slug: ${slug}, lang: ${lang}, versions:`, versions);
 
   let fullPath: string | null = null;
 
@@ -130,9 +123,6 @@ export function getPostBySlug(
     postsDirectory,
     lang === 'es' && versions.hasSpanish ? `${slug}.es.mdx` : `${slug}.mdx`,
   );
-
-  console.log(`[getPostBySlug] folderPath: ${folderPath}`);
-  console.log(`[getPostBySlug] flatPath: ${flatPath}`);
 
   if (fs.existsSync(folderPath)) {
     fullPath = folderPath;
@@ -147,8 +137,6 @@ export function getPostBySlug(
       fullPath = flatEnPath;
     }
   }
-
-  console.log(`[getPostBySlug] Selected fullPath: ${fullPath}`);
 
   if (!fullPath) {
     return null;
@@ -175,27 +163,7 @@ export function getPostBySlug(
     hasEnglish: versions.hasEnglish,
     hasSpanish: versions.hasSpanish,
   };
-}
-
-export function getAllPostSlugs(): string[] {
-  if (!fs.existsSync(postsDirectory)) {
-    return [];
-  }
-
-  const entries = fs.readdirSync(postsDirectory, { withFileTypes: true });
-  const slugsSet = new Set<string>();
-
-  entries.forEach((entry) => {
-    if (entry.isDirectory()) {
-      slugsSet.add(entry.name);
-    } else if (entry.name.endsWith('.mdx')) {
-      const slug = entry.name.replace(/\.es\.mdx$/, '').replace(/\.mdx$/, '');
-      slugsSet.add(slug);
-    }
-  });
-
-  return Array.from(slugsSet);
-}
+});
 
 export async function compilePost(slug: string, lang: Language = 'en') {
   if (!validateSlug(slug)) {

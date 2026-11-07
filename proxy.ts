@@ -3,7 +3,7 @@ import { createAgentSeoMiddleware } from '@agent-seo/next/middleware';
 
 const agentSeoMiddleware = createAgentSeoMiddleware();
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const hostname = request.headers.get('host') || '';
 
   if (

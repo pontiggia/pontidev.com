@@ -1,21 +1,14 @@
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/theme-toggle';
 
-interface SiteHeaderProps {
-  name?: string;
-  href?: string;
-}
-
-export function SiteHeader({
-  name = 'Felipe Pontiggia',
-  href = '/',
-}: SiteHeaderProps) {
+export function SiteHeader() {
   return (
-    <header className="flex items-center justify-between mb-10 md:mb-12">
-      <Link href={href}>
-        <h1 className="font-serif text-2xl md:text-3xl lg:text-4xl tracking-tight text-foreground hover:text-muted-foreground transition-colors cursor-pointer">
-          {name}
-        </h1>
+    <header className="mb-10 flex items-center justify-between gap-4 md:mb-12">
+      <Link
+        href="/"
+        className="font-serif text-xl tracking-tight transition-colors hover:text-muted-foreground"
+      >
+        Felipe Pontiggia
       </Link>
       <ThemeToggle />
     </header>
