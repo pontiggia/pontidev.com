@@ -49,3 +49,5 @@ CLAUDE.md
 app/llms.txt/
 app/api/agent-seo-transform/
 app/robots.txt
+# macOS
+.DS_Store
