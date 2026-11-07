@@ -3,18 +3,14 @@ import { withAgentSeo } from '@agent-seo/next';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  typescript: {
-    ignoreBuildErrors: false,
-  },
   images: {
     unoptimized: true,
   },
-  trailingSlash: false,
 };
 
 export default withAgentSeo({
   siteName: 'Felipe Pontiggia',
-  siteDescription: 'Software engineer. Been coding since I was 16 and never really stopped, mostly building for the web.',
-  baseUrl: 'https://felipepontiggia.com',
+  siteDescription: 'Software engineer from Argentina, in San Francisco building Circleback. I build side projects, break things, and write about what I figure out.',
+  baseUrl: 'https://www.felipepontiggia.com',
   sitemap: true,
 })(nextConfig);

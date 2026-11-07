@@ -45,16 +45,16 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <nav>
-      <p className="text-s font-medium text-foreground uppercase tracking-wider mb-4">
+      <p className="mb-4 text-xs font-medium tracking-wider text-foreground uppercase">
         On This Page
       </p>
-      <ul className="space-y-3">
+      <ul className="space-y-2.5">
         {headings.map((heading) => (
           <li key={heading.id} className={heading.level === 3 ? 'pl-3' : ''}>
             <a
               href={`#${heading.id}`}
               onClick={(e) => handleClick(e, heading.id)}
-              className={`text-base transition-colors block ${
+              className={`block text-sm transition-colors ${
                 activeId === heading.id
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'

@@ -1,38 +1,29 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { Moon, Sun } from 'lucide-react';
 
 export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const savedTheme = localStorage.getItem('theme');
-    const currentIsDark = savedTheme === 'dark';
-    setIsDark(currentIsDark);
-    document.documentElement.classList.toggle('dark', currentIsDark);
+  useLayoutEffect(() => {
+    document.documentElement.classList.toggle(
+      'dark',
+      localStorage.getItem('theme') === 'dark',
+    );
   }, []);
 
   const toggleTheme = () => {
-    const newIsDark = !isDark;
-    setIsDark(newIsDark);
-    document.documentElement.classList.toggle('dark', newIsDark);
-    localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
   };
-
-  if (!mounted) {
-    return <div className="w-6 h-6" />;
-  }
 
   return (
     <button
       onClick={toggleTheme}
-      className="theme-icon text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      className="cursor-pointer transition-colors hover:text-foreground"
+      aria-label="Toggle dark mode"
     >
-      {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      <Moon className="size-4 dark:hidden" />
+      <Sun className="hidden size-4 dark:block" />
     </button>
   );
 }

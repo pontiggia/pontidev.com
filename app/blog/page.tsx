@@ -1,31 +1,42 @@
-import { SiteHeader } from '@/components/site-header';
-import { SiteFooter } from '@/components/site-footer';
+import Link from 'next/link';
 import { getAllPosts } from '@/lib/mdx';
-import { BlogFilter } from '@/components/blog-filter';
+import { formatDate } from '@/lib/utils/date';
 
-export const dynamic = 'force-static';
-export const revalidate = false;
+const description = 'thoughts, notes, and whatever else is on my mind.';
 
 export const metadata = {
   title: 'Blog',
-  description: 'Thoughts on software, design, and life',
+  description,
 };
 
 export default function BlogPage() {
-  const posts = getAllPosts('en');
-  const allTags = Array.from(new Set(posts.flatMap((post) => post.tags || [])));
-
   return (
-    <main className="min-h-screen px-8 md:px-16 lg:px-24 py-8 md:py-10">
-      <SiteHeader name="Ponti" href="/" />
+    <section className="max-w-3xl">
+      <h1 className="font-serif text-3xl tracking-tight md:text-4xl">blog</h1>
+      <p className="mt-3 text-muted-foreground">{description}</p>
 
-      <div className="max-w-2xl mx-auto">
-        <BlogFilter posts={posts} allTags={allTags} />
-      </div>
-
-      <div className="mt-12">
-        <SiteFooter />
-      </div>
-    </main>
+      <ul className="mt-10 divide-y divide-border">
+        {getAllPosts('en').map((post) => (
+          <li key={post.slug}>
+            <Link href={`/blog/${post.slug}`} className="group block py-6">
+              <div className="flex items-baseline justify-between gap-6">
+                <h2 className="font-serif text-xl text-balance transition-colors group-hover:text-muted-foreground md:text-2xl">
+                  {post.title}
+                </h2>
+                <time
+                  dateTime={post.date}
+                  className="shrink-0 text-sm text-muted-foreground tabular-nums"
+                >
+                  {formatDate(post.date)}
+                </time>
+              </div>
+              <p className="mt-2 leading-relaxed text-muted-foreground">
+                {post.description}
+              </p>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
