@@ -16,7 +16,7 @@ const events = [
   },
   {
     title: 'c0mpiled: SanFransokyo',
-    role: 'host · yc rfs hackathon',
+    role: 'judge · c0mpiled',
     meta: 'tokyo · 2026',
     href: 'https://luma.com/tptokyo2026_c0mpiled15',
   },
